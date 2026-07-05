@@ -1,0 +1,4 @@
+name: WarpSystem
+version: '0.1-Alpha'
+main: eu.buildsouthwest.warp.WarpSystem
+api-version: '26.1.2'
