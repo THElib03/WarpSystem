@@ -3,6 +3,7 @@ package eu.buildsouthwest.warp;
 import com.alpsbte.alpslib.io.database.DatabaseConfigPaths;
 import com.alpsbte.alpslib.io.database.DatabaseConnection;
 import com.alpsbte.alpslib.io.database.DatabaseSection;
+import com.google.common.io.CharStreams;
 import eu.buildsouthwest.warp.util.WarpConfig;
 import org.bukkit.plugin.java.JavaPlugin;
 import space.arim.dazzleconf.Configuration;
@@ -14,6 +15,8 @@ import space.arim.dazzleconf.backend.yaml.YamlBackend;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.sql.SQLException;
+import java.util.Objects;
 
 public final class WarpSystem extends JavaPlugin {
 
@@ -71,13 +74,14 @@ public final class WarpSystem extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        DatabaseConnection.shutdown();
     }
 
     public static WarpConfig getWarpConfig() {
         return warpConfig;
     }
 
-    private void initDatabase() {
+    private void initDatabase() throws SQLException, IOException {
         WarpConfig config = getWarpConfig();
         DatabaseSection databaseSection = new DatabaseSection(config.database().url(),
                 config.database().dbname(),
@@ -90,5 +94,9 @@ public final class WarpSystem extends JavaPlugin {
                 0,
                 "plotsystem-hikari");
         DatabaseConnection.initializeDatabase(databaseSection, true);
+        var initScript = CharStreams.toString(Objects.requireNonNull(getTextResource("DATABASE.sql")));
+        try (var con = DatabaseConnection.getConnection(); var s = con.createStatement()) {
+            s.execute(initScript);
+        }
     }
 }
