@@ -21,8 +21,9 @@ repositories {
 dependencies {
     compileOnly("io.papermc.paper:paper-api:26.1.2.build.72-stable")
     implementation("com.alpsbte.alpslib:alpslib-io:1.2.5")
-    implementation("org.mariadb.jdbc:mariadb-java-client:3.5.9")
+    implementation("org.mariadb.jdbc:mariadb-java-client:3.5.11")
     implementation("com.zaxxer:HikariCP:7.0.2")
+    implementation("space.arim.dazzleconf:dazzleconf-core:2.0.0-M1")
     implementation("space.arim.dazzleconf:dazzleconf-yaml:2.0.0-M1")
     compileOnly("org.projectlombok:lombok:1.18.40")
     annotationProcessor("org.projectlombok:lombok:1.18.40")

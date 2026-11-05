@@ -6,6 +6,7 @@ import java.util.UUID;
 public record Warp(
         UUID uuid,
         String displayName,
+        String world,
         String description,
         String type,
         double x,

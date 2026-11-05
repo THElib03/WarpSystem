@@ -1,4 +1,26 @@
 name: WarpSystem
 version: '0.1-Alpha'
+description: "Custom database controller for Build SouthWest Europe's server"
+authors:
+  - DonatiFilippo
+  - THElib03
+
 main: eu.buildsouthwest.warp.WarpSystem
-api-version: '26.1.2'
+prefix: btewarp
+api-version: '26.2'
+load: POSTWORLD
+
+#depend:
+#libraries:
+#  - org.mariadb.jdbc:mariadb-java-client:3.5.9
+#  - com.zaxxer:HikariCP:7.0.2
+
+commands:
+  test:
+    description: test the DB
+    usage: /test
+
+permissions:
+  warp.test:
+    description: ""
+    default: op
