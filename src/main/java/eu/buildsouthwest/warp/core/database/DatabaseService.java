@@ -4,7 +4,6 @@ import com.alpsbte.alpslib.io.database.DatabaseConnection;
 import com.alpsbte.alpslib.io.database.DatabaseSection;
 import eu.buildsouthwest.warp.WarpSystem;
 import eu.buildsouthwest.warp.util.WarpConfig;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.Connection;
 import java.sql.SQLException;
