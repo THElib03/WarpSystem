@@ -1,6 +1,7 @@
 package eu.buildsouthwest.warp.core.database;
 
 import eu.buildsouthwest.warp.core.model.*;
+import org.bukkit.Bukkit;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,6 +19,8 @@ public class WarpRepository {
     private final String NEW_WARP = "INSERT IGNORE INTO bte_warps (id,`name`,world,`description`,`type`,`x`,`y`,`z`,pitch,yaw,icon,visits,creatorId,creationDate) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,NOW());";
     private final String NEW_AUTHOR = "INSERT IGNORE INTO author (creatorId,creatorName) VALUES (?,?);";
     private final String NEW_GEO = "INSERT IGNORE INTO geo_meta VALUES (?,?,?);";
+    private final String DROP_WARP = "DELETE FROM bte_warps WHERE = ?";
+
     private final DatabaseService db;
 
     public WarpRepository(DatabaseService db){
@@ -58,8 +61,8 @@ public class WarpRepository {
         }, db.executor());
     }
 
-    public CompletableFuture<Void> newWarp(Warp warp, Author auth) {
-        return CompletableFuture.runAsync( () -> {
+    public CompletableFuture<Boolean> newWarp(Warp warp, Author auth) {
+        return CompletableFuture.supplyAsync( () -> {
             try{
                 PreparedStatement queryAuthor = db.getConnection().prepareStatement(NEW_AUTHOR);
                 PreparedStatement queryWarp = db.getConnection().prepareStatement(NEW_WARP);
@@ -84,12 +87,36 @@ public class WarpRepository {
                 if(queryAuthor.execute() && queryWarp.execute()){
                     queryAuthor.close();
                     queryWarp.close();
+
+                    return true;
                 }
                 else{
                     throw new SQLException();
                 }
             } catch (SQLException sqle) {
                 sqle.printStackTrace();
+                Bukkit.getLogger().info("SQL error for new warp");
+                return false;
+            }
+        }, db.executor());
+    }
+
+    public CompletableFuture<Boolean> deleteWarp(String warp){
+        return CompletableFuture.supplyAsync( () -> {
+            try{
+                PreparedStatement dropWarp = db.getConnection().prepareStatement(DROP_WARP);
+                dropWarp.setString(1, warp);
+
+                if(dropWarp.execute()){
+                    return true;
+                }
+                else{
+                    throw new SQLException("Failed to delete warp");
+                }
+            } catch (SQLException sqle) {
+                sqle.printStackTrace();
+                Bukkit.getLogger().info("SQL error for delete warp");
+                return false;
             }
         }, db.executor());
     }

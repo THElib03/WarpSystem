@@ -3,6 +3,7 @@ package eu.buildsouthwest.warp.core.database;
 import com.alpsbte.alpslib.io.database.DatabaseConnection;
 import com.alpsbte.alpslib.io.database.DatabaseSection;
 import eu.buildsouthwest.warp.WarpSystem;
+import eu.buildsouthwest.warp.core.command.TestCommand;
 import eu.buildsouthwest.warp.util.WarpConfig;
 
 import java.sql.Connection;

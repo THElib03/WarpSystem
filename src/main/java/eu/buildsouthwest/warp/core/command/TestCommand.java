@@ -1,6 +1,7 @@
-package eu.buildsouthwest.warp.core.database;
+package eu.buildsouthwest.warp.core.command;
 
 import eu.buildsouthwest.warp.WarpSystem;
+import eu.buildsouthwest.warp.core.database.WarpRepository;
 import eu.buildsouthwest.warp.core.model.Warp;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -9,8 +10,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.List;
 
 public class TestCommand implements CommandExecutor {
     private final Component NONPLAYER = Component.text("This command can only be run by a player.", NamedTextColor.RED);
